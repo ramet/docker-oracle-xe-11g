@@ -1,0 +1,120 @@
+----------------------------------------------------------------------------------------
+-- création des comptes et des bases de données (avec leurs données)
+----------------------------------------------------------------------------------------
+
+0. on part de l'installation d'Oracle avec les comptes SYS et SYSTEM (voire SCOTT)
+
+1. creation_administrateur : création du compte ADMIN (DBA) à partir du compte SYSTEM
+
+   UNIX> cd ~oracle/Administration
+   UNIX> sqlplus SYSTEM
+   SQL> start creation_administrateur
+   UNIX>
+
+   à partir de maintenant, tout se fait à partir du compte ADMIN (ou des autres comptes DBA)
+
+2. création des autres utilisateurs (enseignants, etudiants) à partir du compte ADMIN
+
+   creation_enseignant.sql : création d'un compte enseignant
+   creation_etudiants.sql : création des comptes des étudiants
+   creation_admin-etudiants.sql : création du compte d'administration des étudiants
+
+   UNIX> cd ~oracle/Administration
+   UNIX> sqlplus ADMIN
+   SQL> start creation_enseignant
+   SQL> start creation_etudiants
+   SQL> start creation_admin-etudiants
+   SQL> quit
+   UNIX>
+
+3. création de la possibilité de tracer les plans d'exécution des requêtes
+
+   UNIX> cd $ORACLE_HOME/sqlplus/admin/
+   UNIX> sqlplus SYS
+   SQL> start plustrce
+   SQL> grant PLUSTRACE to ADMIN ;
+   SQL> quit
+   UNIX>
+
+   pour chaque compte autorisé (ADMIN, enseignants, admin-etudiant)
+
+   UNIX> cd $ORACLE_HOME/rdbms/admin/
+   UNIX> sqlplus <compte autorisé>
+   SQL> start utlxplan
+   SQL> quit
+   UNIX>
+
+4. création de la possibilité d'analyser les chaînages des tables
+
+   UNIX> cd $ORACLE_HOME/rdbms/admin/
+   UNIX> sqlplus SYSTEM
+   SQL> start utlchain
+   SQL> quit
+   UNIX>
+
+5. création de chaque base de données
+
+5.a. Cinema/ (ADMIN)
+
+     base.sql : creation de la base de données (fichier généré par AMC*Designor)
+     synonymes.sql : création des synonymes
+     privileges.sql : attribution des privilèges
+     donnees.sql : insertion des données
+     procedure-declencheur.sql : procédure et déclencheur interdisant la suppression d'une réservation obligatoire
+
+     UNIX> cd ~oracle/Administration/Cinema
+     UNIX> sqlplus ADMIN
+     SQL> start base
+     SQL> start synonymes
+     SQL> start privileges
+     SQL> start donnees
+     SQL> start procedure-declencheur
+     SQL> quit
+     UNIX>
+
+5.b. JouetCoursBD/ (GUIBERT)
+
+     base.sql : creation de la base de données (fichier généré par AMC*Designor)
+     synonymes.sql : création des synonymes
+     privileges.sql : attribution des privilèges
+     donnees.sql : insertion des données
+
+     UNIX> cd ~oracle/Administration/JouetCoursBD
+     UNIX> sqlplus GUIBERT
+     SQL> start base
+     SQL> start synonymes
+     SQL> start privileges
+     SQL> start donnees
+     SQL> quit
+     UNIX>
+
+5.c. Bibliotheque/ (BAUDERON)
+
+     UNIX> cd ~oracle/Administration/Bibliotheque
+     UNIX> sqlplus BAUDERON
+     SQL> ...
+     SQL> quit
+     UNIX>
+
+----------------------------------------------------------------------------------------
+-- suppression des comptes (et des bases de données)
+----------------------------------------------------------------------------------------
+
+suppression_admin-etudiants.sql : supprime le compte d'administration des étudiants
+suppression_etudiants.sql : supprime les comptes des étudiants
+suppression_enseignant.sql : supprime le compte d'un enseignant
+suppression_administrateur.sql : supprime le compte de l'administrateur
+
+----------------------------------------------------------------------------------------
+-- un peu de ménage dans la base de données Cinéma suite au TD sur les transactions
+----------------------------------------------------------------------------------------
+
+Cinema/donnees_maj.sql : supprime puis re-crée les séances et les réservations d'origine
+
+----------------------------------------------------------------------------------------
+-- du ménage suite au TD d'administration
+----------------------------------------------------------------------------------------
+
+suppression_admin-etudiants.sql : supprime le compte d'administration des étudiants
+creation_admin-etudiants.sql : création du compte d'administration des étudiants
+

@@ -21,6 +21,7 @@ cp /u01/app/oracle/product/11.2.0/xe/network/admin/tnsnames.ora /u01/app/oracle/
 
 mv /assets/init.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
 mv /assets/initXETemp.ora /u01/app/oracle/product/11.2.0/xe/config/scripts &&
+mv /assets/administration / &&
 
 printf 8080\\n1521\\noracle\\noracle\\ny\\n | /etc/init.d/oracle-xe configure &&
 
